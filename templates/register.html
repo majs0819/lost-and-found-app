@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>분실물 등록</title>
+</head>
+<body>
+    <h1>분실물 등록</h1>
+    <form method="post" enctype="multipart/form-data">
+        이름: <input type="text" name="name"><br>
+        위치: <input type="text" name="location"><br>
+        날짜: <input type="date" name="date"><br>
+        설명: <textarea name="description"></textarea><br>
+        분류:
+        <select name="category">
+            <option value="전자기기">전자기기</option>
+            <option value="의류">의류</option>
+            <option value="기타">기타</option>
+        </select><br>
+        사진: <input type="file" name="image"><br>
+        <button type="submit">등록</button>
+    </form>
+    <br>
+    <a href="/">목록으로 돌아가기</a>
+</body>
+</html>
