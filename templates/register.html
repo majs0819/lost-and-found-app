@@ -2,25 +2,122 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>분실물 등록</title>
+    <title>새 분실물 등록</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', sans-serif;
+          background: #f7f8fa;
+          margin: 0;
+          padding: 0;
+        }
+
+        header {
+          background: linear-gradient(90deg, #3b82f6, #06b6d4);
+          color: white;
+          padding: 15px 25px;
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-align: center;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .container {
+          max-width: 600px;
+          margin: 40px auto;
+          background: white;
+          padding: 30px;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        form label {
+          display: block;
+          margin-top: 15px;
+          font-weight: 600;
+        }
+
+        form input[type="text"],
+        form textarea,
+        form select,
+        form input[type="file"] {
+          width: 100%;
+          padding: 10px 12px;
+          margin-top: 6px;
+          border-radius: 8px;
+          border: 1px solid #ddd;
+          font-size: 1rem;
+          box-sizing: border-box;
+          resize: vertical;
+        }
+
+        form textarea {
+          min-height: 100px;
+        }
+
+        .btn {
+          margin-top: 25px;
+          background: #06b6d4;
+          color: white;
+          padding: 12px 20px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1rem;
+          cursor: pointer;
+          width: 100%;
+          display: block;
+        }
+
+        .btn:hover {
+          background: #0891b2;
+        }
+
+        .back-link {
+          display: block;
+          margin-top: 20px;
+          text-align: center;
+          text-decoration: none;
+          color: #3b82f6;
+          font-weight: 600;
+        }
+
+        .back-link:hover {
+          text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>분실물 등록</h1>
-    <form method="post" enctype="multipart/form-data">
-        이름: <input type="text" name="name"><br>
-        위치: <input type="text" name="location"><br>
-        날짜: <input type="date" name="date"><br>
-        설명: <textarea name="description"></textarea><br>
-        분류:
-        <select name="category">
-            <option value="전자기기">전자기기</option>
-            <option value="의류">의류</option>
-            <option value="기타">기타</option>
-        </select><br>
-        사진: <input type="file" name="image"><br>
-        <button type="submit">등록</button>
-    </form>
-    <br>
-    <a href="/">목록으로 돌아가기</a>
+    <header>
+        Lost & Found - 새 분실물 등록
+    </header>
+
+    <div class="container">
+        <form method="post" action="/register" enctype="multipart/form-data">
+            <label for="name">물품 이름</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="location">발견 장소</label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="date">발견 날짜</label>
+            <input type="text" id="date" name="date" placeholder="YYYY-MM-DD" required>
+
+            <label for="category">분류</label>
+            <select id="category" name="category" required>
+                <option value="전자기기">전자기기</option>
+                <option value="의류">의류</option>
+                <option value="기타">기타</option>
+            </select>
+
+            <label for="description">설명</label>
+            <textarea id="description" name="description"></textarea>
+
+            <label for="image">사진 업로드</label>
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <button type="submit" class="btn">등록하기</button>
+        </form>
+
+        <a href="/" class="back-link">← 분실물 목록으로 돌아가기</a>
+    </div>
 </body>
 </html>

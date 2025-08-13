@@ -3,38 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <title>분실물 목록</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', sans-serif;
+          background: #f7f8fa;
+          margin: 0;
+          padding: 0;
+        }
+
+        header {
+          background: linear-gradient(90deg, #3b82f6, #06b6d4);
+          color: white;
+          padding: 15px 25px;
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-align: center;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+          display: flex;
+          justify-content: center;
+          margin: 20px auto;
+          max-width: 800px;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .search-box form {
+          display: flex;
+          flex: 1;
+          min-width: 250px;
+        }
+
+        .search-box input,
+        .search-box select {
+          padding: 12px 15px;
+          border: 1px solid #ddd;
+          font-size: 1rem;
+        }
+
+        .search-box input {
+          flex: 1;
+          border-radius: 10px 0 0 10px;
+        }
+
+        .search-box select {
+          border-radius: 0;
+        }
+
+        .search-box button {
+          padding: 12px 20px;
+          border-radius: 0 10px 10px 0;
+          background: #3b82f6;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+
+        .search-box button:hover {
+          background: #2563eb;
+        }
+
+        .card-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 10px;
+        }
+
+        .item-card {
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+          overflow: hidden;
+          margin: 15px;
+          width: 280px;
+          transition: transform 0.2s ease;
+        }
+
+        .item-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .item-card img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+        }
+
+        .item-card .info {
+          padding: 15px;
+        }
+
+        .item-card .info h3 {
+          margin: 0 0 8px;
+          font-size: 1.2rem;
+        }
+
+        .item-card .info p {
+          color: #555;
+          font-size: 0.95rem;
+        }
+
+        .btn {
+          display: inline-block;
+          background: #06b6d4;
+          color: white;
+          padding: 10px 15px;
+          border-radius: 8px;
+          border: none;
+          cursor: pointer;
+          font-size: 0.9rem;
+          text-decoration: none;
+        }
+
+        .btn:hover {
+          background: #0891b2;
+        }
+    </style>
 </head>
 <body>
-    <h1>분실물 목록</h1>
+    <header>
+        Lost & Found - 분실물 목록
+    </header>
 
-    <form method="get" action="/">
-        <input type="text" name="query" placeholder="이름 검색" value="{{ query }}">
-        <select name="category">
-            <option value="">전체</option>
-            <option value="전자기기" {% if category == '전자기기' %}selected{% endif %}>전자기기</option>
-            <option value="의류" {% if category == '의류' %}selected{% endif %}>의류</option>
-            <option value="기타" {% if category == '기타' %}selected{% endif %}>기타</option>
-        </select>
-        <button type="submit">검색</button>
-    </form>
+    <!-- 검색창 + 등록 버튼 -->
+    <div class="search-box">
+        <form method="get" action="/">
+            <input type="text" name="query" placeholder="이름 검색" value="{{ query }}">
+            <select name="category">
+                <option value="">전체</option>
+                <option value="전자기기" {% if category == '전자기기' %}selected{% endif %}>전자기기</option>
+                <option value="의류" {% if category == '의류' %}selected{% endif %}>의류</option>
+                <option value="기타" {% if category == '기타' %}selected{% endif %}>기타</option>
+            </select>
+            <button type="submit">검색</button>
+        </form>
+        <a href="/register" class="btn" style="white-space:nowrap;">+ 새 분실물 등록</a>
+    </div>
 
-    <a href="/register">새 분실물 등록</a>
-
-    <ul>
-    {% for item in items %}
-        <li>
-            <strong>{{ item.name }}</strong> - {{ item.location }} - {{ item.date }} <br>
-            분류: {{ item.category }} <br>
-            설명: {{ item.description }} <br>
+    <!-- 카드 레이아웃 -->
+    <div class="card-container">
+        {% for item in items %}
+        <div class="item-card">
             {% if item.image %}
-                <img src="{{ item.image }}" width="150"><br>
+                <img src="{{ item.image }}" alt="{{ item.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/300x200?text=No+Image" alt="이미지 없음">
             {% endif %}
-            <form method="post" action="/delete/{{ loop.index0 }}">
-                <button type="submit">삭제</button>
-            </form>
-        </li>
-        <hr>
-    {% endfor %}
-    </ul>
+            <div class="info">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.location }} - {{ item.date }}</p>
+                <p>분류: {{ item.category }}</p>
+                <p>{{ item.description }}</p>
+                <form method="post" action="/delete/{{ loop.index0 }}">
+                    <button type="submit" class="btn">삭제</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
